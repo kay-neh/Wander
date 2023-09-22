@@ -9,6 +9,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.appbar.MaterialToolbar
@@ -32,9 +33,17 @@ class MainActivity : AppCompatActivity() {
         mapFragment.getMapAsync(OnMapReadyCallback {
             val location = LatLng(37.59, -118.86 )
             val zoomLevel = 10f
+
+            // Adding overlay to map
+            // Instantiates a new CircleOptions object and defines the center and radius
+            val circleOptions = CircleOptions()
+                .center(location)
+                .radius(1000.0) // In meters
+
             map = it
             map.addMarker(MarkerOptions().position(location).title("Marker"))
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomLevel))
+            map.addCircle(circleOptions)
             setMapLongClick(map)
             setPOIClick(map)
             enableMyLocation()
